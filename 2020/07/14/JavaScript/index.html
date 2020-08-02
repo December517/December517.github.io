@@ -30,7 +30,7 @@
 <meta property="og:image" content="c:%5CUsers%5CKevien%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200714114231498.png">
 <meta property="og:image" content="c:%5CUsers%5CKevien%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200714170436813.png">
 <meta property="article:published_time" content="2020-07-14T15:02:18.000Z">
-<meta property="article:modified_time" content="2020-08-01T08:07:28.953Z">
+<meta property="article:modified_time" content="2020-08-02T13:24:02.904Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
@@ -288,7 +288,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count word-count">2.6k</span>Reading time: <span class="post-count reading-time">11 min</span></span>
+                        <span>Word count: <span class="post-count word-count">3.1k</span>Reading time: <span class="post-count reading-time">13 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -722,6 +722,45 @@ height:50vh;
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">qj1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> y；</span><br><span class="line">    <span class="keyword">var</span> x = <span class="string">"x"</span> + y;</span><br><span class="line">    <span class="built_in">console</span>.log(x);</span><br><span class="line">    y = <span class="string">"y"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这是在JavaScript建立之初就存在的特性，养成规范：所有的变量定义都在函数的头部，不要乱放，便于代码维护；</p>
+<blockquote>
+<p>全局函数</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//全局变量</span></span><br><span class="line">x = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(x);</span><br><span class="line">&#125;</span><br><span class="line">f();</span><br><span class="line"><span class="built_in">console</span>.log(x);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>全局对象 window</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="string">'xxx'</span>;</span><br><span class="line">alert(x);</span><br><span class="line">alert(<span class="built_in">window</span>.x);  <span class="comment">//默认所有的全局变量, 都会自动绑定在window对象下</span></span><br></pre></td></tr></table></figure>
+
+<p>alert(); 本身也是一个 window 下的函数.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="string">'xxx'</span>;</span><br><span class="line"><span class="built_in">window</span>.alert(x);</span><br><span class="line"><span class="keyword">var</span> old_alert = <span class="built_in">window</span>.alert;</span><br><span class="line"><span class="comment">//old_alert(x);</span></span><br><span class="line"><span class="built_in">window</span>.alert = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//发现 alert() 失效了</span></span><br><span class="line"><span class="built_in">window</span>.alert(<span class="number">123</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//恢复</span></span><br><span class="line"><span class="built_in">window</span>.alert = old_alert;</span><br><span class="line"><span class="built_in">window</span>.alert(<span class="number">456</span>);</span><br></pre></td></tr></table></figure>
+
+<p>JavaScript实际上只有一个全局作用域, 任何变量(函数也可以视为变量), 假设没有在函数作用范围内找到, 就会向外查找, 如果在全局作用域都没有找到, 报错 <font color = red >  RefrenceErrpr</font>.</p>
+<blockquote>
+<p>规范</p>
+<p>由于我们所有的全局变量都会绑定到我们的 window 上, 如果不同的js文件, 使用了相同的全局变量, 冲突 –&gt; 如何能够减少冲突?</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//唯一全局变量</span></span><br><span class="line"><span class="keyword">var</span> kuangApp = &#123;&#125;;</span><br><span class="line"><span class="comment">//定义全局变量</span></span><br><span class="line">kuangApp.name = <span class="string">'kuang'</span>;</span><br><span class="line">kuangApp.add = <span class="function"><span class="keyword">function</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把自己的代码全部放入自己定义的唯一空间名字中, 降低全局命名冲突的问题</p>
+<p>jQuery</p>
+<blockquote>
+<p>局部作用域 let</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">aaa</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(i+<span class="number">1</span>);   <span class="comment">//i 出了这个作用域, 还可以使用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>ES6 let 关键字, 解决局部作用域冲突问题</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">aaa1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">console</span>.log(i+<span class="number">1</span>);   <span class="comment">// uncaught referenceError; i is not defined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建议大家都是用 <font color = green>let</font> 去定义局部作用域的变量;</p>
+<blockquote>
+<p>常量 const </p>
+<p>在ES6之前, 怎么定义常量: 只有用全部大写字母命名的变量就是常量, 建议不要修改这样的值?</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Pi = <span class="string">'3.14'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(Pi);</span><br><span class="line">Pi = <span class="string">'213'</span>; <span class="comment">//  可以改变这个值</span></span><br><span class="line"><span class="built_in">console</span>.log(Pi);</span><br></pre></td></tr></table></figure>
+
+<p>在ES6引入了常量关键字 <code>const</code> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> pi = <span class="string">'3.14'</span>;  <span class="comment">//只读变量</span></span><br><span class="line"><span class="built_in">console</span>.log(pi);</span><br><span class="line">pi = <span class="string">'123'</span>;</span><br></pre></td></tr></table></figure>
+
 
     </article>
     <!-- license  -->
@@ -730,7 +769,7 @@ height:50vh;
             <p>Author：<a href="http://yoursite.com">John Doe</a>
             <p>原文链接：<a href="http://yoursite.com/2020/07/14/JavaScript/">http://yoursite.com/2020/07/14/JavaScript/</a>
             <p>发表日期：<a href="http://yoursite.com/2020/07/14/JavaScript/">July 14th 2020, 11:02:18 pm</a>
-            <p>更新日期：<a href="http://yoursite.com/2020/07/14/JavaScript/">August 1st 2020, 4:07:28 pm</a>
+            <p>更新日期：<a href="http://yoursite.com/2020/07/14/JavaScript/">August 2nd 2020, 9:24:02 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
